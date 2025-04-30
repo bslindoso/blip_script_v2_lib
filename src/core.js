@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import { HttpRequest } from "./HttpRequest.js";
 
 /**
  * @fileoverview Biblioteca de utilitários para integração com a plataforma Blip
@@ -9,70 +10,6 @@ import moment from "moment-timezone";
  * - Gerenciamento de variáveis de contexto
  * - Manipulação de datas e tempos
  */
-
-class HttpRequest {
-  /**
-   * Realiza uma requisição HTTP assíncrona
-   * @param {string} url - URL da requisição
-   * @param {Object} [options=null] - Opções da requisição
-   * @param {string} [options.method='GET'] - Método HTTP
-   * @param {Object} [options.headers={}] - Cabeçalhos da requisição
-   * @param {Object} [options.body=null] - Corpo da requisição
-   * @returns {Promise<Object>} Resposta da requisição
-   */
-  async fetchAsync(url, options = null) {
-    const config = {
-      method: "GET",
-      headers: {},
-      body: null,
-      ...options,
-    };
-
-    const { method, headers, body } = config;
-
-    const requestOptions = {
-      method,
-      headers,
-    };
-
-    if (method !== "GET" && body) {
-      requestOptions.body = JSON.stringify(body);
-    }
-
-    try {
-      const response = await fetch(url, requestOptions);
-      const clonedResponse = response.clone();
-      const responseText = await response.text();
-
-      let responseJson = null;
-      try {
-        responseJson = JSON.parse(responseText);
-      } catch (e) {
-        // Texto não é um JSON válido
-      }
-
-      return {
-        status: clonedResponse.status,
-        headers,
-        body: responseText,
-        json: responseJson,
-        success: clonedResponse.status >= 200 && clonedResponse.status < 300,
-        jsonAsync: async () => responseJson || JSON.parse(responseText),
-      };
-    } catch (error) {
-      console.error("Falha na requisição:", error);
-      return {
-        status: 0,
-        headers: {},
-        body: null,
-        json: null,
-        success: false,
-        error: error.message,
-        jsonAsync: async () => null,
-      };
-    }
-  }
-}
 
 /**
  * Classe para manipulação de intervalos de tempo
