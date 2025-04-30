@@ -1,4 +1,4 @@
-const moment = require('moment-timezone');
+import moment from "moment-timezone";
 
 /**
  * @fileoverview Biblioteca de utilitários para integração com a plataforma Blip
@@ -10,10 +10,6 @@ const moment = require('moment-timezone');
  * - Manipulação de datas e tempos
  */
 
-/**
- * Classe responsável por realizar requisições HTTP
- * @class HttpRequest
- */
 class HttpRequest {
   /**
    * Realiza uma requisição HTTP assíncrona
@@ -26,20 +22,20 @@ class HttpRequest {
    */
   async fetchAsync(url, options = null) {
     const config = {
-      method: 'GET',
+      method: "GET",
       headers: {},
       body: null,
-      ...options
+      ...options,
     };
 
     const { method, headers, body } = config;
 
     const requestOptions = {
       method,
-      headers
+      headers,
     };
 
-    if (method !== 'GET' && body) {
+    if (method !== "GET" && body) {
       requestOptions.body = JSON.stringify(body);
     }
 
@@ -60,11 +56,11 @@ class HttpRequest {
         headers,
         body: responseText,
         json: responseJson,
-        success: (clonedResponse.status >= 200 && clonedResponse.status < 300),
-        jsonAsync: async () => responseJson || JSON.parse(responseText)
+        success: clonedResponse.status >= 200 && clonedResponse.status < 300,
+        jsonAsync: async () => responseJson || JSON.parse(responseText),
       };
     } catch (error) {
-      console.error('Falha na requisição:', error);
+      console.error("Falha na requisição:", error);
       return {
         status: 0,
         headers: {},
@@ -72,7 +68,7 @@ class HttpRequest {
         json: null,
         success: false,
         error: error.message,
-        jsonAsync: async () => null
+        jsonAsync: async () => null,
       };
     }
   }
@@ -111,7 +107,7 @@ class Time {
    * Construtor da classe Time
    * @param {string} [defaultTimeZone='America/Sao_Paulo'] - Timezone padrão
    */
-  constructor(defaultTimeZone = 'America/Sao_Paulo') {
+  constructor(defaultTimeZone = "America/Sao_Paulo") {
     this.defaultTimeZone = defaultTimeZone;
     moment.tz.setDefault(defaultTimeZone);
   }
@@ -126,7 +122,11 @@ class Time {
    * @returns {Date} Objeto Date
    */
   parseDate(date, options = {}) {
-    const { format, culture = 'en-US', timeZone = this.defaultTimeZone } = options;
+    const {
+      format,
+      culture = "en-US",
+      timeZone = this.defaultTimeZone,
+    } = options;
 
     let momentDate;
 
@@ -138,7 +138,7 @@ class Time {
     }
 
     if (!momentDate.isValid()) {
-      throw new Error('Data inválida');
+      throw new Error("Data inválida");
     }
 
     // Aplica o timezone se especificado
@@ -155,15 +155,15 @@ class Time {
     const originalToString = jsDate.toString;
 
     jsDate.toDateString = function () {
-      return moment(this).tz(timeZone).format('ddd MMM DD YYYY');
+      return moment(this).tz(timeZone).format("ddd MMM DD YYYY");
     };
 
     jsDate.toTimeString = function () {
-      return moment(this).tz(timeZone).format('HH:mm:ss GMTZZ');
+      return moment(this).tz(timeZone).format("HH:mm:ss GMTZZ");
     };
 
     jsDate.toString = function () {
-      return moment(this).tz(timeZone).format('ddd MMM DD YYYY HH:mm:ss GMTZZ');
+      return moment(this).tz(timeZone).format("ddd MMM DD YYYY HH:mm:ss GMTZZ");
     };
 
     return jsDate;
@@ -189,11 +189,11 @@ class Time {
 
     if (!format) {
       // Formato padrão: yyyy-MM-dd'T'HH:mm:ss.fffffffK
-      return momentDate.format('YYYY-MM-DDTHH:mm:ss.SSSSSSSZ');
+      return momentDate.format("YYYY-MM-DDTHH:mm:ss.SSSSSSSZ");
     }
 
-    if (format.includes('dd')) {
-      format = format.replace('dd', 'DD');
+    if (format.includes("dd")) {
+      format = format.replace("dd", "DD");
     }
 
     return momentDate.format(format);
@@ -205,7 +205,7 @@ class Time {
    * @returns {Promise<void>}
    */
   sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 }
 
@@ -258,5 +258,5 @@ module.exports = {
   request: new HttpRequest(),
   TimeSpan: new TimeSpan(),
   context: new Context(),
-  time: new Time()
+  time: new Time(),
 };
