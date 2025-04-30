@@ -1,0 +1,14 @@
+{
+  "name": "blip_script_v2_lib",
+  "version": "1.0.0",
+  "main": "core.js",
+  "repository": "git@github.com:bslindoso/blip_script_v2_lib.git",
+  "author": "Bruno Lindoso",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node src/core.js"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.48"
+  }
+}
