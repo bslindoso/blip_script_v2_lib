@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import { Context } from "./Context.js";
 import { HttpRequest } from "./HttpRequest.js";
 
 /**
@@ -143,43 +144,6 @@ class Time {
    */
   sleep(milliseconds) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  }
-}
-
-/**
- * Classe para gerenciamento de variáveis de contexto
- * @class Context
- */
-class Context {
-  constructor() {
-    this.variablesContent = {};
-  }
-
-  /**
-   * Define uma variável no contexto
-   * @param {string} name - Nome da variável
-   * @param {any} value - Valor da variável
-   * @param {number} [expiration=null] - Tempo de expiração em milissegundos
-   */
-  async setVariableAsync(name, value, expiration = null) {
-    this.variablesContent[name] = value;
-  }
-
-  /**
-   * Remove uma variável do contexto
-   * @param {string} name - Nome da variável a ser removida
-   */
-  async deleteVariableAsync(name) {
-    delete this.variablesContent[name];
-  }
-
-  /**
-   * Obtém o valor de uma variável do contexto
-   * @param {string} name - Nome da variável
-   * @returns {Promise<any>} Valor da variável
-   */
-  async getVariableAsync(name) {
-    return this.variablesContent[name];
   }
 }
 
