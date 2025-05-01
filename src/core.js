@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import { TimeSpan } from "./TimeSpan.js";
 import { HttpRequest } from "./HttpRequest.js";
 
 /**
@@ -10,30 +11,6 @@ import { HttpRequest } from "./HttpRequest.js";
  * - Gerenciamento de variáveis de contexto
  * - Manipulação de datas e tempos
  */
-
-/**
- * Classe para manipulação de intervalos de tempo
- * @class TimeSpan
- */
-class TimeSpan {
-  /**
-   * Converte minutos para milissegundos
-   * @param {number} minutes - Minutos a serem convertidos
-   * @returns {number} Milissegundos equivalentes
-   */
-  fromMinutes(minutes) {
-    return minutes * 60 * 1000;
-  }
-
-  /**
-   * Retorna o valor em milissegundos
-   * @param {number} milliseconds - Valor em milissegundos
-   * @returns {number} O mesmo valor em milissegundos
-   */
-  fromMilliseconds(milliseconds) {
-    return milliseconds;
-  }
-}
 
 /**
  * Classe para manipulação de datas e tempos
@@ -193,7 +170,7 @@ class Context {
  */
 module.exports = {
   request: new HttpRequest(),
-  TimeSpan: new TimeSpan(),
+  TimeSpan,
   context: new Context(),
   time: new Time(),
 };
