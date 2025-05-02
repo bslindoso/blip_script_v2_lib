@@ -1,12 +1,11 @@
-import { Time } from "./Time.js";
-import { Context } from "./Context.js";
-import { TimeSpan } from "./TimeSpan.js";
-import { HttpRequest } from "./HttpRequest.js";
+import { Time } from "./classes/Time.js";
+import { Context } from "./classes/Context.js";
+import { HttpRequest } from "./classes/HttpRequest.js";
 
 /**
  * @fileoverview Biblioteca de utilitários para integração com a plataforma Blip
  * @module blip-utils
- * @version 2.0.0
+ * @version 1.0.0
  * @description Esta biblioteca fornece utilitários para:
  * - Realização de requisições HTTP
  * - Gerenciamento de variáveis de contexto
@@ -17,13 +16,9 @@ import { HttpRequest } from "./HttpRequest.js";
  * Exporta as instâncias dos utilitários
  * @exports {Object} Utilitários do Blip
  * @property {HttpRequest} request - Instância para requisições HTTP
- * @property {TimeSpan} TimeSpan - Instância para manipulação de tempo
  * @property {Context} context - Instância para gerenciamento de contexto
  * @property {Time} time - Instância para manipulação de datas e tempos
  */
-module.exports = {
-  request: new HttpRequest(),
-  TimeSpan,
-  context: new Context(),
-  time: new Time(),
-};
+export const request = new HttpRequest();
+export const context = new Context();
+export const time = new Time();
