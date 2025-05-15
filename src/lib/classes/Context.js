@@ -150,8 +150,10 @@ export class Context {
     const _name = new VariableName(name);
 
     if (expiration < 0) throw new NegativeExpirationError();
-    if (value === undefined)
+    if (value === undefined) {
       this.#repository.set(_name.toString(), {}, expiration);
+      return;
+    }
 
     this.#repository.set(_name.toString(), value, expiration);
   }
