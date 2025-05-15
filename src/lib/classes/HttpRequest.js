@@ -10,17 +10,6 @@ class InvalidMethodError extends Error {
 }
 
 /**
- * Erro lançado ao falhar na conversão de uma string JSON para objeto.
- * @class JsonParseError
- */
-class JsonParseError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "JsonParseError";
-  }
-}
-
-/**
  * Utilitário para validação e gerenciamento de métodos HTTP.
  * @class HttpMethod
  */
@@ -114,10 +103,14 @@ class HttpResponseWrapper {
    */
   constructor(response, rawBody) {
     this.status = response.status;
-    this.headers = response.headers;
+    this.headers = this.#headersToObject(response.headers);
     this.body = rawBody;
     this.success = this.#isSuccessful();
-    this.json = this.#parseJson(rawBody);
+
+    const parsedJson = this.#parseJson(rawBody);
+    if (parsedJson !== undefined) {
+      this.json = parsedJson;
+    }
   }
 
   /**
@@ -129,6 +122,24 @@ class HttpResponseWrapper {
   }
 
   /**
+   * Converte um objeto Headers para um objeto JavaScript simples.
+   *
+   * O método percorre todos os cabeçalhos presentes no objeto `Headers`
+   * e os armazena em um objeto simples, onde as chaves são os nomes dos cabeçalhos
+   * e os valores são os respectivos valores dos cabeçalhos.
+   *
+   * @param {Headers} headers - O objeto Headers que contém os cabeçalhos HTTP.
+   * @returns {Object} - Um objeto JavaScript contendo os cabeçalhos como chave-valor.
+   */
+  #headersToObject(headers) {
+    const obj = {};
+    headers.forEach((value, key) => {
+      obj[key] = value;
+    });
+    return obj;
+  }
+
+  /**
    * Tenta fazer o parsing do corpo como JSON.
    * @param {string} body - Corpo da resposta.
    * @returns {object|null} Objeto JSON ou lança erro se falhar.
@@ -137,7 +148,7 @@ class HttpResponseWrapper {
     try {
       return JSON.parse(body);
     } catch (_) {
-      throw new JsonParseError(`Failed to parse response body as JSON`);
+      return;
     }
   }
 
