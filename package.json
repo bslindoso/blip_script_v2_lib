@@ -1,13 +1,13 @@
 {
   "name": "blip_script_v2_lib",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "repository": "git@github.com:bslindoso/blip_script_v2_lib.git",
   "author": "Bruno Lindoso",
   "license": "MIT",
   "scripts": {
-    "build": "babel src -d dist --quiet",
-    "dev": "node dist/run.js",
-    "start": "npm run build && npm run dev"
+    "build": "babel src --out-dir dist --quiet",
+    "dev": "babel-node src/run.js",
+    "start": "npm run build && node dist/run.js"
   },
   "dependencies": {
     "moment-timezone": "^0.5.48"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@babel/cli": "^7.27.1",
     "@babel/core": "^7.27.1",
+    "@babel/node": "^7.27.1",
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/preset-env": "^7.27.1"
   }
