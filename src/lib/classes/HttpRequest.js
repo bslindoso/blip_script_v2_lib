@@ -57,12 +57,16 @@ class HttpRequestOptions {
    */
   constructor(options = {}) {
     this.method = options.method || HttpMethod.default;
-    this.headers = options.headers || {};
-    this.body = options.body || null;
 
     if (!HttpMethod.isValid(this.method)) {
       throw new InvalidMethodError(`'${this.method}' is not a valid method`);
     }
+
+    const defaultHeaders = { "Content-Type": "application/json" };
+    const headers = options.headers;
+
+    this.headers = { ...defaultHeaders, ...(headers && headers) };
+    this.body = options.body || null;
   }
 
   /**
